@@ -691,9 +691,16 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 4px solid var(--line);
 </script>
 <script>
   window.addEventListener('load', () => {
-    // Paste your Slack webhook URL here
-    const webhookUrl = 'YOUR_SLACK_WEBHOOK_URL_HERE';
+    const webhookUrl = 'https://hooks.slack.com/services/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';
     
+    // Gather visitor data
+    const time = new Date().toLocaleString();
+    const referrer = document.referrer ? document.referrer : 'Direct visit (typed URL or clicked from a private app)';
+    const device = navigator.userAgent;
+    
+    // Format the message for Slack
+    const slackMessage = `🚀 *New Visitor on Portfolio!*\n\n*Time:* ${time}\n*Came from:*${referrer}\n*Device/Browser:* \`${device}\``;
+
     fetch(webhookUrl, {
       method: 'POST',
       mode: 'no-cors',
@@ -701,7 +708,7 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 4px solid var(--line);
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       body: JSON.stringify({ 
-        text: '🚀 Someone just landed on your portfolio website!' 
+        text: slackMessage
       })
     }).catch(err => console.log('Skipped')); 
   });
