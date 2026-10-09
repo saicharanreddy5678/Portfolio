@@ -690,29 +690,33 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 4px solid var(--line);
 })();
 </script>
 <script>
-  window.addEventListener('load', () => {
-    // Replace with your actual Slack webhook URL
-    const webhookUrl = 'https://hooks.slack.com/services/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';
-    
-    // Gather visitor data
-    const time = new Date().toLocaleString();
-    const referrer = document.referrer ? document.referrer : 'Direct visit (typed URL or clicked from a private app)';
-    const device = navigator.userAgent;
-    
-    // Format the message for Slack
-    const slackMessage = `🚀 *New Visitor on Portfolio!*\n\n*Time:* ${time}\n*Came from:*${referrer}\n*Device/Browser:* \`${device}\``;
+window.addEventListener('load', () => {
+  // Replace with your actual Slack webhook URL
+  const slackWebhookUrl = 'https://hooks.slack.com/services/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';
+  const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(slackWebhookUrl);
 
-    fetch(webhookUrl, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: JSON.stringify({ 
-        text: slackMessage
-      })
-    }).catch(err => console.log('Skipped')); 
-  });
+  // Gather visitor data
+  const time = new Date().toLocaleString();
+  const referrer = document.referrer ? document.referrer : 'Direct visit (typed URL or clicked from bookmark)';
+  const device = navigator.userAgent;
+
+  // Format the message for Slack
+  const slackMessage = `🚀 *New Visitor on Portfolio!*\n\n*Time:* ${time}\n*Came from:* ${referrer}\n*Device:* ${device}`;
+
+  // Send the notification using the CORS proxy
+  fetch(proxyUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ 
+      text: slackMessage 
+    })
+  })
+  .then(response => response.text())
+  .then(data => console.log('Slack responded:', data))
+  .catch(console.error);
+});
 </script>
 </body>
 </html>
