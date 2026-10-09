@@ -688,32 +688,47 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 4px solid var(--line);
   });
   updateHud();
 })();
-</script>
+<script>
 window.addEventListener('load', () => {
+  // 1. Your Slack Webhook URL
   const slackWebhookUrl = 'https://hooks.slack.com/services/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';
-  
-  // Using AllOrigins CORS proxy
-  const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(slackWebhookUrl);
 
+  // 2. Gather visitor info
   const time = new Date().toLocaleString();
-  const referrer = document.referrer ? document.referrer : 'Direct visit (typed URL or clicked from bookmark)';
+  const referrer = document.referrer ? document.referrer : 'Direct visit';
   const device = navigator.userAgent;
-
   const slackMessage = `🚀 *New Visitor on Portfolio!*\n\n*Time:* ${time}\n*Came from:* ${referrer}\n*Device:* ${device}`;
 
-  fetch(proxyUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ 
-      text: slackMessage 
-    })
-  })
-  .then(response => {
-    console.log('Slack responded status:', response.status);
-  })
-  .catch(err => console.error('Webhook error:', err));
+  // 3. Create a hidden form and iframe to submit payload natively without CORS blocks
+  const iframeName = 'slack_iframe_' + Date.now();
+  const iframe = document.createElement('iframe');
+  iframe.name = iframeName;
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  const form = document.createElement('form');
+  form.action = slackWebhookUrl;
+  form.method = 'POST';
+  form.target = iframeName;
+
+  // Slack webhooks require the JSON payload sent inside a 'payload' form field
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'payload';
+  input.value = JSON.stringify({ text: slackMessage });
+
+  form.appendChild(input);
+  document.body.appendChild(form);
+  
+  // Submit the form silently
+  form.submit();
+
+  // Clean up DOM elements after submission
+  setTimeout(() => {
+    form.remove();
+    iframe.remove();
+  }, 2000);
 });
+</script>
 </body>
 </html>
