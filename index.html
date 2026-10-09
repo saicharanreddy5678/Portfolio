@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Portfolio of G Sai Charan Reddy, Senior DevOps Engineer with 5+ years on AWS, Azure, Kubernetes, Terraform and CI/CD.">
+<meta name="color-scheme" content="dark">
+<title>Sai Charan Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Theme: Crimson Night, a single dark look. Layout concept: title-block rail on the left, content as rounded panels. */
+:root {
+  --bg: #130809;
+  --surface: #1D0E10;
+  --ink: #F8ECEE;
+  --muted: #B79CA1;
+  --line: #43202A;
+  --grid: rgba(0, 0, 0, 0);
+  --accent: #F43F5E;
+  --accent-ink: #130809;
+  --ok: #6BE0A3;
+  --code-bg: #0A0405;
+  --code-fg: #F2DDE1;
+  --code-add: #FF9AA5;
+  --font-display: "Archivo", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background-color: var(--bg);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  padding-inline: 20px; padding-block: 0 56px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1180px; margin-inline: auto; display: grid; grid-template-columns: 210px minmax(0, 1fr); column-gap: 48px; align-items: start; }
+.wrap > footer { grid-column: 2; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 10px; }
+
+/* title-block rail */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); align-self: start; display: flex; flex-direction: column; gap: 22px; padding-block: 32px; }
+.mark { font-family: var(--font-mono); font-size: 14px; font-weight: 500; letter-spacing: .02em; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+.mark b { color: var(--accent); font-weight: 500; }
+.nav { display: flex; flex-direction: column; gap: 2px; font-family: var(--font-mono); font-size: 13px; }
+.nav a { color: var(--muted); text-decoration: none; padding: 6px 0 6px 12px; border-left: 2px solid var(--line); }
+.nav a:hover { color: var(--ink); border-left-color: var(--accent); }
+
+/* hero */
+.hero { padding-block: 32px 24px; display: grid; gap: 28px; }
+.status { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 20%, transparent); flex: none; }
+h1 {
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(2.4rem, 7vw, 4.4rem); font-stretch: 118%;
+  line-height: 1; letter-spacing: -0.03em; margin: 14px 0 0; text-wrap: balance;
+}
+.role { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.15rem, 3vw, 1.6rem); color: var(--accent); margin: 10px 0 0; }
+.lede { max-width: 66ch; color: var(--muted); font-size: 1.08rem; margin: 18px 0 0; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.btn { display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 13px; font-weight: 500; text-decoration: none; padding: 9px 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); }
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+/* pipeline */
+.pipe { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+.pipe-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 14px; text-transform: uppercase; letter-spacing: .08em; }
+.stages { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+.stage {
+  appearance: none; text-align: left; cursor: pointer; font: inherit; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
+  display: grid; gap: 4px; min-width: 0;
+}
+.stage:hover { border-color: var(--muted); }
+.stage[aria-selected="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, var(--surface)); }
+.stage .n { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.stage .t { font-weight: 600; font-size: 14px; line-height: 1.25; }
+.stage .s { font-family: var(--font-mono); font-size: 11px; color: var(--ok); }
+.detail { margin-top: 14px; padding: 16px; border-radius: 10px; background: var(--code-bg); color: var(--code-fg); font-family: var(--font-mono); font-size: 13.5px; line-height: 1.7; min-height: 9.5em; }
+.detail .k { color: var(--code-add); }
+.detail p { margin: 0; overflow-wrap: anywhere; }
+.detail .tools { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+.detail .tools span { border: 1px solid color-mix(in srgb, var(--code-fg) 30%, transparent); border-radius: 999px; padding: 1px 10px; font-size: 12.5px; }
+
+/* sections */
+section { padding-block: 48px 8px; scroll-margin-top: 8px; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 0 0 8px; }
+h2 { font-family: var(--font-display); font-stretch: 112%; font-weight: 700; font-size: clamp(1.7rem, 4.5vw, 2.4rem); letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 24px; text-wrap: balance; }
+
+/* jobs and runs */
+.job { margin-bottom: 36px; }
+.job-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 20px; padding-bottom: 10px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+.job-head h3 { font-family: var(--font-display); font-size: 1.3rem; margin: 0; letter-spacing: -0.01em; }
+.job-head .when { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+.job-head .title { width: 100%; color: var(--accent); font-weight: 500; }
+.runs { display: grid; gap: 16px; }
+.run { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 22px 32px; }
+.run h3 { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.2; margin: 0 0 4px; letter-spacing: -0.01em; }
+.run .meta { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin: 0 0 12px; }
+.run p { margin: 0 0 12px; }
+.run ul { margin: 0; padding-left: 1.1em; }
+.run li { margin-bottom: 5px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.chips span { font-family: var(--font-mono); font-size: 12px; padding: 2px 9px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); }
+pre.code {
+  margin: 0; background: var(--code-bg); color: var(--code-fg); border-radius: 10px; padding: 14px 16px;
+  font-family: var(--font-mono); font-size: 12.5px; line-height: 1.7; overflow-x: auto; align-self: start; min-width: 0;
+}
+pre.code .add { color: var(--code-add); }
+pre.code .dim { opacity: .65; }
+
+/* case study */
+.case { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px; }
+.case .lead { max-width: 66ch; margin: 0 0 20px; color: var(--muted); }
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.steps li { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 14px; min-width: 0; }
+.steps .lab { display: block; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 6px; }
+.steps p { margin: 0; font-size: 14.5px; }
+
+/* stack */
+.stackgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.grp { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; min-width: 0; }
+.grp h3 { font-family: var(--font-mono); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 8px; }
+.grp p { margin: 0; font-size: 15px; }
+.grp.wide { grid-column: 1 / -1; }
+
+/* field notes */
+.notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.note { padding: 18px 22px; border-bottom: 1px solid var(--line); min-width: 0; }
+.note:nth-child(odd) { border-right: 1px solid var(--line); }
+.note:nth-last-child(-n+2) { border-bottom: 0; }
+.note h3 { font-family: var(--font-mono); font-size: 13px; font-weight: 500; margin: 0 0 6px; color: var(--accent); }
+.note p { margin: 0; color: var(--muted); font-size: 15px; }
+
+/* about / education */
+.about { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px 40px; }
+.about p { margin: 0 0 14px; max-width: 62ch; }
+.facts { margin: 0; display: grid; gap: 10px; align-content: start; font-family: var(--font-mono); font-size: 13px; }
+.facts div { display: flex; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; text-align: right; }
+.comp { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.comp span { font-size: 14px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
+
+/* contact */
+.contact { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 22px; }
+.crow { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; align-items: center; gap: 8px 16px; padding-block: 14px; border-bottom: 1px solid var(--line); }
+.crow:last-child { border-bottom: 0; }
+.crow .lab { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.crow .val { font-family: var(--font-mono); font-size: 15px; overflow-wrap: anywhere; user-select: all; }
+.crow a.val { user-select: auto; }
+.copy { appearance: none; font-family: var(--font-mono); font-size: 12px; cursor: pointer; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 4px 10px; }
+.copy:hover { border-color: var(--muted); }
+footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); }
+
+@media (min-width: 1101px) {
+  .wrap { max-width: 1320px; }
+  .runs { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .run { grid-template-columns: minmax(0, 1fr); }
+  .runs > .run:last-child:nth-child(odd) { grid-column: 1 / -1; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+}
+@media (max-width: 1100px) {
+  .stages { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .run, .about { grid-template-columns: minmax(0, 1fr); }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stackgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); }
+  .wrap > footer { grid-column: 1; }
+  .bar { position: static; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 22px; }
+  .mark { border-bottom: 0; padding-bottom: 0; }
+  .nav { flex-direction: row; flex-wrap: wrap; gap: 4px 16px; }
+  .nav a { padding: 4px 0; border-left: 0; }
+}
+@media (max-width: 860px) {
+  .stages { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .run, .about { grid-template-columns: minmax(0, 1fr); }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stackgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  body { padding-inline: 16px; }
+  .stages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .steps, .stackgrid { grid-template-columns: minmax(0, 1fr); }
+  .notes { grid-template-columns: minmax(0, 1fr); }
+  .note:nth-child(odd) { border-right: 0; }
+  .note:nth-last-child(2) { border-bottom: 1px solid var(--line); }
+  .run, .case { padding: 18px; }
+  .crow { grid-template-columns: minmax(0, 1fr) auto; }
+  .crow .lab { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stage, .detail { transition: border-color .15s ease, background-color .15s ease; }
+}
+</style>
+<style>html { color-scheme: dark; background: #130809; } body { margin: 0; } img { max-width: 100%; }</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="bar">
+    <div class="mark">sai-charan<b>@</b>ops</div>
+    <nav class="nav" aria-label="Sections">
+      <a href="#experience">Experience</a>
+      <a href="#case">Case study</a>
+      <a href="#projects">Projects</a>
+      <a href="#stack">Skills</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <span class="status"><span class="dot" aria-hidden="true"></span>Open to DevOps, Senior DevOps and SRE roles</span>
+        <h1>Sai Charan G</h1>
+        <p class="role">Senior DevOps Engineer, 5+ years</p>
+        <p class="lede">I design, automate and run cloud infrastructure and CI/CD pipelines for high-availability enterprise platforms on AWS and Azure. My work centres on Kubernetes, Docker and Terraform, with GitOps delivery that raises release frequency and cuts operational overhead. I have supported platforms in media, banking and financial services, and transport and logistics.</p>
+        <div class="cta">
+          <a class="btn primary" href="#contact">Get in touch</a>
+          <a class="btn" href="Sai_Charan_Resume.pdf" download>Download resume</a>
+          <a class="btn" href="#experience">Read the experience</a>
+        </div>
+      </div>
+
+      <div class="pipe" aria-labelledby="pipe-title">
+        <div class="pipe-head"><span id="pipe-title">Pipeline: commit to production</span><span>Select a stage</span></div>
+        <div class="stages" role="tablist" aria-label="Pipeline stages" id="stages"></div>
+        <div class="detail" id="detail" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <section id="experience">
+      <p class="eyebrow">Experience</p>
+      <h2>Where I have shipped</h2>
+
+      <div class="job">
+        <div class="job-head">
+          <h3>ANTS IT Solutions Pvt Ltd</h3>
+          <span class="when">Jan 2023 to present</span>
+          <span class="title">Senior DevOps Engineer</span>
+        </div>
+        <div class="runs">
+          <article class="run">
+            <div>
+              <h3>Recast</h3>
+              <p class="meta">Media · Dec 2024 to present · Senior DevOps Engineer</p>
+              <ul>
+                <li>Designed and maintained CI/CD pipelines on Jenkins and GitHub Actions for automated builds, testing and multi-environment deployments.</li>
+                <li>Provisioned and managed AWS infrastructure with Terraform: EC2, VPC, RDS, IAM, Auto Scaling, load balancers, S3, CloudFront and Route 53.</li>
+                <li>Deployed and scaled containerised microservices on Amazon EKS using Docker, ECR and Helm, with GitOps delivery through Argo CD.</li>
+                <li>Set up Prometheus and Grafana for dashboards, alerting and high-availability support.</li>
+                <li>Designed secure multi-account AWS networking with Transit Gateway, VPC Peering and hardened security groups.</li>
+                <li>Automated server configuration, patching and application deployments with Ansible, reducing manual intervention by 65%.</li>
+                <li>Worked with development, QA and security teams to improve the SDLC, scalability, reliability and cloud operations.</li>
+              </ul>
+              <div class="chips"><span>Jenkins</span><span>GitHub Actions</span><span>Terraform</span><span>EKS</span><span>Helm</span><span>Argo CD</span><span>Prometheus</span><span>Grafana</span><span>Ansible</span></div>
+            </div>
+            <pre class="code" aria-label="Delivery flow"><span class="dim"># delivery flow</span>
+<span class="add">git push</span>
+  └─ Jenkins / GitHub Actions
+      └─ Docker image → ECR
+          └─ Helm chart
+              └─ Argo CD sync
+                  └─ EKS
+                      └─ Prometheus + Grafana</pre>
+          </article>
+
+          <article class="run">
+            <div>
+              <h3>Airwallex</h3>
+              <p class="meta">Banking and financial services · Jan 2023 to Nov 2024 · DevOps Engineer</p>
+              <p>Global payments and financial platform (FinTech).</p>
+              <ul>
+                <li>Built and maintained Jenkins CI/CD pipelines with Git and Maven for application builds, testing and multi-environment deployments.</li>
+                <li>Provisioned highly available AWS infrastructure: EC2, Auto Scaling Groups, Elastic Load Balancing, IAM, Amazon Aurora, DB subnet groups and Multi-AZ deployments.</li>
+                <li>Scaled containerised AI inference workloads and data pipelines on Amazon EKS, orchestrating model service endpoints, MongoDB caching and Auto Scaling for low-latency batch and real-time processing.</li>
+                <li>Containerised applications with Docker and orchestrated workloads on Kubernetes to improve scalability and resource use.</li>
+                <li>Automated server configuration, software installation and compliance work with Ansible roles, playbooks and Ansible Tower.</li>
+                <li>Implemented S3 lifecycle policies, Intelligent-Tiering and versioning to optimise storage cost.</li>
+                <li>Configured CloudWatch dashboards, alarms and log groups, and supported disaster-recovery planning with RTO/RPO testing.</li>
+              </ul>
+              <div class="chips"><span>Jenkins</span><span>Maven</span><span>EC2</span><span>Aurora</span><span>EKS</span><span>Ansible Tower</span><span>S3</span><span>CloudWatch</span></div>
+            </div>
+            <pre class="code" aria-label="High availability layout"><span class="dim"># high availability layout</span>
+ELB
+  └─ Auto Scaling Group (EC2)
+      ├─ AZ a
+      └─ AZ b
+  └─ Aurora
+      └─ DB subnet group
+          └─ <span class="add">Multi-AZ</span>
+
+<span class="dim"># recovery</span>
+RTO / RPO tested</pre>
+          </article>
+        </div>
+      </div>
+
+      <div class="job">
+        <div class="job-head">
+          <h3>Cognizant Technology Solutions Pvt Ltd</h3>
+          <span class="when">Jul 2021 to Dec 2022</span>
+          <span class="title">DevOps Engineer</span>
+        </div>
+        <div class="runs">
+          <article class="run">
+            <div>
+              <h3>WorkWave</h3>
+              <p class="meta">Transportation and logistics · AWS and Azure · Jul 2021 to Dec 2022</p>
+              <ul>
+                <li>Worked with client teams to understand deployment requests, and coordinated with development, DBA, QA and IT operations to prevent resource conflicts.</li>
+                <li>Defined code and configuration release scope, deployment requirements and success criteria with project managers.</li>
+                <li>Kept work visible by creating and maintaining Jira issues to prioritise tasks and report progress.</li>
+                <li>Built, managed and continuously improved the build and deployment infrastructure for global software teams.</li>
+                <li>Implemented CI/CD with Jenkins, Git and Maven, including automated build, test and deployment scripts across environments.</li>
+                <li>Administered Jenkins pipelines for weekly build, test and deploy cycles using Dev, Test and Production Git branching strategies.</li>
+                <li>Managed AWS services: S3 bucket policies, Glacier storage classes, SNS notifications, CloudWatch monitoring, RDS access and EBS volume alarms.</li>
+              </ul>
+              <div class="chips"><span>Jenkins</span><span>Git</span><span>Maven</span><span>S3</span><span>Glacier</span><span>SNS</span><span>CloudWatch</span><span>RDS</span><span>EBS</span></div>
+            </div>
+            <pre class="code" aria-label="Weekly release cycle"><span class="dim"># weekly release cycle</span>
+<span class="add">dev</span>   → build, test
+<span class="add">test</span>  → build, test, deploy
+<span class="add">prod</span>  → deploy
+
+<span class="dim"># tracked in</span>
+Jira</pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="case">
+      <p class="eyebrow">Key achievement</p>
+      <h2>Intermittent 502 errors on EKS</h2>
+      <div class="case">
+        <p class="lead">An application on EKS, exposed through an AWS load balancer, returned intermittent 502 errors while scaling. The cause was in how pods left the service, not in the application.</p>
+        <ol class="steps">
+          <li><span class="lab">Investigate</span><p>Looked at load balancer traffic, Kubernetes events, service endpoints, pod logs and pod behaviour during scaling events.</p></li>
+          <li><span class="lab">Narrow down</span><p>Errors appeared during scale-down only. Scale-up stayed clean.</p></li>
+          <li><span class="lab">Root cause</span><p>The load balancer was still sending traffic to pods that were terminating.</p></li>
+          <li><span class="lab">Fix</span><p>Added health probes and graceful pod termination so pods deregister cleanly. The 502 errors stopped.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="projects">
+      <p class="eyebrow">Hands-on projects</p>
+      <h2>Infrastructure and delivery work</h2>
+      <div class="runs">
+
+        <article class="run">
+          <div>
+            <h3>On-prem to AWS server migration</h3>
+            <p class="meta">Team project · my part: target infrastructure</p>
+            <p>Part of a team that moved application servers from on-prem VMs to AWS. I built the landing infrastructure in Terraform and validated it before cutover.</p>
+            <ul>
+              <li>Mapped on-prem server specs to EC2 instance types.</li>
+              <li>Wrote the VPC, subnets, route tables and security groups as code.</li>
+              <li>Configured IAM roles and security group rules.</li>
+              <li>Checked networking and application startup before cutover.</li>
+            </ul>
+            <div class="chips"><span>Terraform</span><span>AWS</span><span>EC2</span><span>VPC</span><span>IAM</span></div>
+          </div>
+          <pre class="code" aria-label="Terraform plan output, abbreviated"><span class="dim">$ terraform plan</span>
+<span class="add">+ aws_vpc.target</span>
+<span class="add">+ aws_subnet.public[*]</span>
+<span class="add">+ aws_subnet.private[*]</span>
+<span class="add">+ aws_route_table.main</span>
+<span class="add">+ aws_security_group.app</span>
+<span class="add">+ aws_iam_role.app</span>
+<span class="add">+ aws_instance.app[*]</span></pre>
+        </article>
+
+        <article class="run">
+          <div>
+            <h3>Jenkins CI/CD for Java applications</h3>
+            <p class="meta">Pipeline as code · dev, staging, production</p>
+            <p>Built Jenkins pipelines that compile with Maven, analyse with SonarQube, publish to Nexus and deploy to Tomcat. Explored branch-based flows so each branch maps to an environment.</p>
+            <ul>
+              <li>Pipelines written in Groovy, including the plugin and syntax problems that come with it.</li>
+              <li>Fixed artifact path and pipeline execution failures end to end.</li>
+            </ul>
+            <div class="chips"><span>Jenkins</span><span>Maven</span><span>SonarQube</span><span>Nexus</span><span>Tomcat</span></div>
+          </div>
+          <pre class="code" aria-label="Pipeline stage list"><span class="dim">// Jenkinsfile stages</span>
+<span class="add">✓</span> Checkout
+<span class="add">✓</span> Build (Maven)
+<span class="add">✓</span> Code analysis (SonarQube)
+<span class="add">✓</span> Publish artifact (Nexus)
+<span class="add">✓</span> Deploy (Tomcat)</pre>
+        </article>
+
+        <article class="run">
+          <div>
+            <h3>AWS networking and container hosts with Terraform</h3>
+            <p class="meta">Personal lab · modules and remote state</p>
+            <p>Built public and private network layouts on AWS, then bootstrapped Docker hosts on EC2 with user data so a container comes up without anyone logging in.</p>
+            <ul>
+              <li>Public and private subnets, NAT patterns and ALB-related networking.</li>
+              <li>Reusable Terraform modules with remote state.</li>
+              <li>Dockerfiles, Docker Compose and images pushed to registries.</li>
+            </ul>
+            <div class="chips"><span>Terraform</span><span>Docker</span><span>Compose</span><span>EC2 user data</span><span>ALB</span></div>
+          </div>
+          <pre class="code" aria-label="Network layout sketch"><span class="dim"># layout</span>
+internet
+  └─ ALB
+      └─ public subnets
+          └─ NAT
+              └─ private subnets
+                  └─ EC2 + Docker</pre>
+        </article>
+
+        <article class="run">
+          <div>
+            <h3>Kubernetes lab clusters</h3>
+            <p class="meta">kubeadm and Minikube</p>
+            <p>Stood up clusters by hand to understand what the managed services hide, then worked with pods, services, NodePort access and multi-container pods.</p>
+            <ul>
+              <li>Diagnosed kubelet failures and cluster networking problems.</li>
+              <li>Traced DNS issues through CoreDNS and kube-proxy.</li>
+            </ul>
+            <div class="chips"><span>Kubernetes</span><span>kubeadm</span><span>Minikube</span><span>CoreDNS</span><span>kube-proxy</span></div>
+          </div>
+          <pre class="code" aria-label="Cluster check commands"><span class="dim">$ kubectl get nodes</span>
+<span class="dim">$ kubectl get pods -A</span>
+<span class="dim">$ kubectl -n kube-system \
+    logs -l k8s-app=kube-dns</span>
+<span class="dim">$ journalctl -u kubelet</span></pre>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="stack">
+      <p class="eyebrow">Technical skills</p>
+      <h2>Skills and tools</h2>
+      <div class="stackgrid">
+        <div class="grp wide"><h3>Cloud platforms</h3><p><strong>Azure</strong>, <strong>AWS</strong>: EC2, S3, RDS, IAM, VPC, ELB, Route 53, CloudWatch, CloudTrail, Auto Scaling, Lambda, Transit Gateway, VPC Peering, KMS, WAF, Secrets Manager, CloudFront, Aurora, SNS, EBS, Glacier</p></div>
+        <div class="grp"><h3>Containers and orchestration</h3><p>Docker, Docker Compose, Kubernetes, Amazon EKS, ECR, Helm, OpenShift, kubeadm, Minikube</p></div>
+        <div class="grp"><h3>CI/CD</h3><p>Jenkins, GitHub Actions, Argo CD (GitOps), Azure DevOps (ADO) Pipelines</p></div>
+        <div class="grp"><h3>Build and artifacts</h3><p>Maven, Nexus Artifact Repository</p></div>
+        <div class="grp"><h3>Infrastructure as code</h3><p>Terraform, modules, remote state</p></div>
+        <div class="grp"><h3>Configuration management</h3><p>Ansible roles, playbooks, Ansible Tower</p></div>
+        <div class="grp"><h3>Monitoring and observability</h3><p>Prometheus, Grafana, Datadog, AWS CloudWatch</p></div>
+        <div class="grp"><h3>Scripting and automation</h3><p>Bash, shell scripting, Python</p></div>
+        <div class="grp"><h3>Version control</h3><p>Git, GitHub, Bitbucket</p></div>
+        <div class="grp"><h3>Web servers</h3><p>Nginx, Apache, Apache Tomcat</p></div>
+        <div class="grp"><h3>Databases</h3><p>MySQL, AWS RDS, MariaDB, MongoDB (NoSQL)</p></div>
+        <div class="grp"><h3>Operating systems</h3><p>Linux (Ubuntu, CentOS), Windows Server</p></div>
+        <div class="grp"><h3>Project tools</h3><p>Jira, Confluence</p></div>
+        <div class="grp"><h3>Security and compliance</h3><p>IAM roles and policies, VPC security groups, AWS CloudTrail auditing</p></div>
+        <div class="grp"><h3>DevSecOps</h3><p>SonarQube, secrets scanning</p></div>
+        <div class="grp"><h3>Practices</h3><p>GitOps, multi-environment releases, disaster recovery (RTO/RPO), cost optimisation, security hardening, incident troubleshooting</p></div>
+        <div class="grp"><h3>Currently learning</h3><p>Kafka, Airflow, microservices, DevSecOps</p></div>
+        <div class="grp wide"><h3>Generative AI in DevOps work</h3><p>Amazon Bedrock and GitHub Copilot for CI/CD pipeline analysis, Terraform and Ansible code generation, Linux troubleshooting, log analysis and root-cause identification</p></div>
+      </div>
+    </section>
+
+    <section id="field-notes">
+      <p class="eyebrow">Field notes</p>
+      <h2>What I have debugged</h2>
+      <div class="notes">
+        <div class="note"><h3>Terraform</h3><p>Credential errors, state locking, provider installation failures and resource configuration mistakes.</p></div>
+        <div class="note"><h3>Jenkins</h3><p>Plugin problems, Groovy syntax, wrong artifact paths and pipelines that fail partway through.</p></div>
+        <div class="note"><h3>Docker</h3><p>Image push and authentication failures, crashing containers, port conflicts and storage limits.</p></div>
+        <div class="note"><h3>Kubernetes</h3><p>Kubelet failures, pod networking, CoreDNS and kube-proxy behaviour, and load balancer 502s during scale-down.</p></div>
+        <div class="note"><h3>Git</h3><p>Detached HEAD, lost commits recovered with reflog, .gitignore cleanup and Git LFS trouble.</p></div>
+        <div class="note"><h3>Environment</h3><p>Version mismatches, missing paths and packages, and VM resource limits on local labs.</p></div>
+      </div>
+    </section>
+
+    <section id="about">
+      <p class="eyebrow">About</p>
+      <h2>Education and approach</h2>
+      <div class="about">
+        <div>
+          <p>I learn by building and breaking things. When something fails I want the reason it works the way it does, not only the command that clears the error.</p>
+          <p>I am looking for a DevOps, Senior DevOps or SRE role where I can own infrastructure as code, delivery pipelines and Kubernetes platforms.</p>
+          <p>Also studying: Kafka, Airflow, microservices and DevSecOps.</p>
+        </div>
+        <dl class="facts">
+          <div><dt>Full name</dt><dd>G Sai Charan Reddy</dd></div>
+          <div><dt>Education</dt><dd>B.Tech, graduated 2019</dd></div>
+          <div><dt>Experience</dt><dd>5+ years</dd></div>
+          <div><dt>Domains</dt><dd>Media, FinTech, Logistics</dd></div>
+        </dl>
+      </div>
+      <div class="comp" aria-label="Core competencies">
+        <span>Cloud infrastructure management</span><span>DevOps automation</span><span>CI/CD pipeline design</span><span>Kubernetes cluster administration</span><span>Docker containerisation</span><span>GitOps</span><span>Terraform IaC</span><span>Ansible configuration management</span><span>AWS cloud services</span><span>Site reliability engineering (SRE)</span><span>Agile/Scrum</span><span>Linux administration</span><span>System monitoring</span><span>High availability architecture</span><span>Disaster recovery</span><span>Microservices</span><span>Serverless computing</span><span>Cost optimisation</span><span>Security hardening</span><span>Release management</span>
+      </div>
+    </section>
+
+    <section id="contact">
+      <p class="eyebrow">Contact</p>
+      <h2>Let's talk</h2>
+      <div class="contact">
+        <div class="crow"><span class="lab">Email</span><span class="val" id="v-email">saicharan.cloudops@gmail.com</span><button class="copy" type="button" data-target="v-email">Copy</button></div>
+        <div class="crow"><span class="lab">Phone</span><span class="val" id="v-phone">+91-7330922247</span><button class="copy" type="button" data-target="v-phone">Copy</button></div>
+        <div class="crow"><span class="lab">Resume</span><a class="val" href="Sai_Charan_Resume.pdf" download>Sai_Charan_Resume.pdf</a><span></span></div>
+        <div class="crow"><span class="lab">LinkedIn</span><a class="val" href="https://www.linkedin.com/in/sai-charan-reddy-gaddam" target="_blank" rel="noopener">linkedin.com/in/sai-charan-reddy-gaddam</a><span></span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>G Sai Charan Reddy · Senior DevOps Engineer</span>
+    <span>Last deployed: October 2026</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var stages = [
+    { n: "01", t: "Source", tools: ["Git", "GitHub", "Bitbucket"], d: "Branching strategies for Dev, Test and Production, merges, reflog recovery and secrets scanning." },
+    { n: "02", t: "Build and test", tools: ["Jenkins", "GitHub Actions", "Azure DevOps", "Maven", "SonarQube"], d: "Automated builds, tests and multi-environment deployments, with code analysis in the pipeline." },
+    { n: "03", t: "Package", tools: ["Docker", "ECR", "Nexus", "Helm"], d: "Containerised microservices, images in ECR and registries, build artifacts in Nexus, charts in Helm." },
+    { n: "04", t: "Provision", tools: ["Terraform", "Ansible", "AWS", "Azure"], d: "VPC, EC2, RDS, IAM, Auto Scaling and load balancers as code, plus Ansible for configuration, patching and compliance." },
+    { n: "05", t: "Deploy", tools: ["EKS", "Kubernetes", "Argo CD", "OpenShift"], d: "GitOps delivery through Argo CD onto EKS, with health probes and graceful termination for clean rollouts." },
+    { n: "06", t: "Operate", tools: ["Prometheus", "Grafana", "Datadog", "CloudWatch"], d: "Dashboards, alerting and log groups, disaster-recovery planning with RTO/RPO testing, Linux troubleshooting." }
+  ];
+  var list = document.getElementById("stages");
+  var detail = document.getElementById("detail");
+  var buttons = [];
+
+  function show(i) {
+    buttons.forEach(function (b, j) { b.setAttribute("aria-selected", j === i ? "true" : "false"); b.tabIndex = j === i ? 0 : -1; });
+    var s = stages[i];
+    detail.innerHTML = "";
+    var tools = document.createElement("div");
+    tools.className = "tools";
+    s.tools.forEach(function (x) { var el = document.createElement("span"); el.textContent = x; tools.appendChild(el); });
+    var p1 = document.createElement("p");
+    p1.innerHTML = '<span class="k">stage:</span> ';
+    p1.appendChild(document.createTextNode(s.t.toLowerCase()));
+    var p2 = document.createElement("p");
+    p2.textContent = s.d;
+    detail.appendChild(p1);
+    detail.appendChild(tools);
+    detail.appendChild(p2);
+  }
+
+  stages.forEach(function (s, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "stage"; b.setAttribute("role", "tab");
+    b.innerHTML = '<span class="n"></span><span class="t"></span><span class="s">passed</span>';
+    b.children[0].textContent = s.n;
+    b.children[1].textContent = s.t;
+    b.addEventListener("click", function () { show(i); });
+    b.addEventListener("keydown", function (e) {
+      var k = e.key, n = i;
+      if (k === "ArrowRight" || k === "ArrowDown") n = (i + 1) % stages.length;
+      else if (k === "ArrowLeft" || k === "ArrowUp") n = (i - 1 + stages.length) % stages.length;
+      else return;
+      e.preventDefault(); show(n); buttons[n].focus();
+    });
+    list.appendChild(b); buttons.push(b);
+  });
+  show(3);
+
+
+  Array.prototype.forEach.call(document.querySelectorAll(".copy"), function (btn) {
+    btn.addEventListener("click", function () {
+      var el = document.getElementById(btn.getAttribute("data-target"));
+      var text = el.textContent;
+      function done(label) { var old = "Copy"; btn.textContent = label; setTimeout(function () { btn.textContent = old; }, 1500); }
+      function fallback() {
+        try {
+          var r = document.createRange(); r.selectNodeContents(el);
+          var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        } catch (e) {}
+        done("Selected");
+      }
+      try {
+        navigator.clipboard.writeText(text).then(function () { done("Copied"); }, fallback);
+      } catch (e) { fallback(); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
