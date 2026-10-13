@@ -689,5 +689,16 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 4px solid var(--line);
   updateHud();
 })();
 </script>
+<script>
+window.addEventListener('load', function () {
+  try { if (sessionStorage.getItem('pinged')) return; sessionStorage.setItem('pinged', '1'); } catch (e) {}
+  fetch('https://visitor-ping.saicharanreddy5678.workers.dev', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ page: location.href, ref: document.referrer || 'Direct', ua: navigator.userAgent }),
+    keepalive: true
+  }).catch(function () {});
+});
+</script>
 </body>
 </html>
